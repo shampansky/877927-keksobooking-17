@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Евгений](https://up.htmlacademy.ru/javascript/17/user/877927).
-* Наставник: `Неизвестно`.
+* Наставник: Дмитрий Самойлис.
 
 ---
 
