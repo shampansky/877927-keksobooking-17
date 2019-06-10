@@ -26,31 +26,35 @@ var getRandomInRange = function (minValue, maxValue) {
   return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
 };
 
-// Наполняем массив объектами апартаментов
-for (var i = 1; i <= APPARTMENTS_NUMBER; i++) {
-  var apartment = {
+var getApartmentData = function (imageNum, appTypes, pinSizeX, pinSizeY) {
+  var appartment = {
     author: {
-      avatar: 'img/avatars/user0' + i + '.png'
+      avatar: 'img/avatars/user0' + imageNum + '.png'
     },
 
     offer: {
-      type: APPARTMENT_TYPES[getRandomArrayNumber(APPARTMENT_TYPES)]
+      type: appTypes[getRandomArrayNumber(appTypes)]
     },
 
     location: {
       // Вычитаем размеры пина, чтобы он не вылезал за пределы блока
-      x: getRandomInRange(0, 1200 - PIN_SIZE_X),
-      y: getRandomInRange(130, 630 - PIN_SIZE_Y)
+      x: getRandomInRange(0, 1200 - pinSizeX),
+      y: getRandomInRange(130, 630 - pinSizeY)
     }
   };
-  apartments.push(apartment);
+  return appartment;
+};
+
+// Наполняем массив объектами апартаментов
+for (var i = 1; i <= APPARTMENTS_NUMBER; i++) {
+  apartments.push(getApartmentData(i, APPARTMENT_TYPES, PIN_SIZE_X, PIN_SIZE_Y));
 }
 
 // Временно убираем затемнение карты
 document.querySelector('.map').classList.remove('map--faded');
 
 // Создание пина
-var renderPin = function (pin) {
+var pinStyle = function (pin) {
   var style = 'left: ' + pin.location.x + 'px; top: ' + pin.location.y + 'px;';
 
   var pinElement = pinTemplate.cloneNode(true);
@@ -65,7 +69,7 @@ var renderPin = function (pin) {
 var fragment = document.createDocumentFragment();
 
 for (var j = 0; j < apartments.length; j++) {
-  fragment.appendChild(renderPin(apartments[j]));
+  fragment.appendChild(pinStyle(apartments[j]));
 }
 
 pinList.appendChild(fragment);
