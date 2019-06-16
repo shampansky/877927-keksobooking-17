@@ -95,26 +95,26 @@ var revealMap = function () {
 };
 
 var activateFiledsets = function () {
-  for (var k = 0; k < adFormFieldsets.length; i++) {
-    adFormFieldsets[k].removeAttribute('disabled');
+  for (var a = 0; a < adFormFieldsets.length; a++) {
+    adFormFieldsets[a].removeAttribute('disabled');
   }
 };
 
 var deactivateFiledsets = function () {
-  for (var m = 0; m < adFormFieldsets.length; i++) {
-    adFormFieldsets[m].setAttribute('disabled', 'disabled');
+  for (var b = 0; b < adFormFieldsets.length; b++) {
+    adFormFieldsets[b].setAttribute('disabled', 'disabled');
   }
 };
 
 var activateMapFilters = function () {
-  for (var n = 0; n < mapFilters.length; i++) {
-    mapFilters[n].removeAttribute('disabled');
+  for (var c = 0; c < mapFilters.length; c++) {
+    mapFilters[c].removeAttribute('disabled');
   }
 };
 
 var deactivateMapFilters = function () {
-  for (var x = 0; x < mapFilters.length; i++) {
-    mapFilters[x].setAttribute('disabled', 'disabled');
+  for (var d = 0; d < mapFilters.length; d++) {
+    mapFilters[d].setAttribute('disabled', 'disabled');
   }
 };
 
