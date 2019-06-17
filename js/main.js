@@ -10,6 +10,9 @@ var APPARTMENT_TYPES = [
 ];
 var PIN_SIZE_X = 50;
 var PIN_SIZE_Y = 70;
+
+var MAIN_PIN_X = 65;
+var MAIN_PIN_Y = 82;
 // Блок с пинами в разметке
 var pinList = document.querySelector('.map__pins');
 
@@ -51,7 +54,7 @@ for (var i = 1; i <= APPARTMENTS_NUMBER; i++) {
 }
 
 // Временно убираем затемнение карты
-document.querySelector('.map').classList.remove('map--faded');
+// document.querySelector('.map').classList.remove('map--faded');
 
 // Создание пина
 var pinStyle = function (pin) {
@@ -66,10 +69,71 @@ var pinStyle = function (pin) {
 };
 
 // Добавляем пины в разметку через элемент documentFragment
-var fragment = document.createDocumentFragment();
 
-for (var j = 0; j < apartments.length; j++) {
-  fragment.appendChild(pinStyle(apartments[j]));
-}
+var createPinsOnMap = function () {
+  var fragment = document.createDocumentFragment();
 
-pinList.appendChild(fragment);
+  for (var j = 0; j < apartments.length; j++) {
+    fragment.appendChild(pinStyle(apartments[j]));
+  }
+
+  pinList.appendChild(fragment);
+};
+
+var map = document.querySelector('.map');
+var mainPin = document.querySelector('.map__pin--main');
+var adFormFieldsets = document.querySelectorAll('.ad-form fieldset');
+var adForm = document.querySelector('.ad-form');
+var mapFilters = document.querySelector('.map__filters').children;
+
+var activateForm = function () {
+  adForm.classList.remove('ad-form--disabled');
+};
+
+var revealMap = function () {
+  map.classList.remove('map--faded');
+};
+
+var activateFiledsets = function () {
+  for (var a = 0; a < adFormFieldsets.length; a++) {
+    adFormFieldsets[a].removeAttribute('disabled');
+  }
+};
+
+var deactivateFiledsets = function () {
+  for (var b = 0; b < adFormFieldsets.length; b++) {
+    adFormFieldsets[b].setAttribute('disabled', 'disabled');
+  }
+};
+
+var activateMapFilters = function () {
+  for (var c = 0; c < mapFilters.length; c++) {
+    mapFilters[c].removeAttribute('disabled');
+  }
+};
+
+var deactivateMapFilters = function () {
+  for (var d = 0; d < mapFilters.length; d++) {
+    mapFilters[d].setAttribute('disabled', 'disabled');
+  }
+};
+
+var addressField = adForm.querySelector('#address');
+
+var addMainPinCoordinates = function (pin, pinWidth, pinHeight, input) {
+  var xCoord = parseInt(pin.style.left, 10) + Math.floor(pinWidth / 2);
+  var yCoord = parseInt(pin.style.top, 10) + pinHeight;
+  input.value = xCoord + ', ' + yCoord;
+};
+
+deactivateMapFilters();
+deactivateFiledsets();
+
+mainPin.addEventListener('mouseup', function () {
+  revealMap();
+  activateMapFilters();
+  createPinsOnMap();
+  activateForm();
+  activateFiledsets();
+  addMainPinCoordinates(mainPin, MAIN_PIN_X, MAIN_PIN_Y, addressField);
+});
