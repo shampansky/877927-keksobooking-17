@@ -158,7 +158,7 @@ mainPin.addEventListener('mouseup', function () {
 var formAccomTypesSelect = document.querySelector('#type');
 
 
-var changePriceAttributes = function (minValue) {
+var onChangePriceAttributes = function (minValue) {
   var formPriceInput = document.querySelector('#price');
   formPriceInput.setAttribute('placeholder', minValue);
   formPriceInput.setAttribute('min', minValue);
@@ -168,5 +168,5 @@ var changePriceAttributes = function (minValue) {
 // обработчик изменения типа жилья
 formAccomTypesSelect.addEventListener('change', function (evt) {
   var currentSelectionValue = evt.target.options[evt.target.selectedIndex].value;
-  changePriceAttributes(ACCOMMODATIONS[currentSelectionValue].minPrice);
+  onChangePriceAttributes(ACCOMMODATIONS[currentSelectionValue].minPrice);
 });
