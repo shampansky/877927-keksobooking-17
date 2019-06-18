@@ -8,6 +8,22 @@ var APPARTMENT_TYPES = [
   'house',
   'bungalo'
 ];
+
+var ACCOMMODATIONS = {
+  palace: {
+    minPrice: 10000
+  },
+  flat: {
+    minPrice: 1000
+  },
+  house: {
+    minPrice: 5000
+  },
+  bungalo: {
+    minPrice: 0
+  }
+};
+
 var PIN_SIZE_X = 50;
 var PIN_SIZE_Y = 70;
 
@@ -136,4 +152,21 @@ mainPin.addEventListener('mouseup', function () {
   activateForm();
   activateFiledsets();
   addMainPinCoordinates(mainPin, MAIN_PIN_X, MAIN_PIN_Y, addressField);
+});
+
+// находим поле с типом жилья
+var formAccomTypesSelect = document.querySelector('#type');
+
+
+var onChangePriceAttributes = function (minValue) {
+  var formPriceInput = document.querySelector('#price');
+  formPriceInput.setAttribute('placeholder', minValue);
+  formPriceInput.setAttribute('min', minValue);
+
+};
+
+// обработчик изменения типа жилья
+formAccomTypesSelect.addEventListener('change', function (evt) {
+  var currentSelectionValue = evt.target.options[evt.target.selectedIndex].value;
+  onChangePriceAttributes(ACCOMMODATIONS[currentSelectionValue].minPrice);
 });
