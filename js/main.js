@@ -157,7 +157,7 @@ mainPin.addEventListener('mousedown', function (evt) {
   createPinsOnMap();
   activateForm();
   activateFiledsets();
-  addMainPinCoordinates(mainPin, MAIN_PIN_X, MAIN_PIN_Y, addressField);
+
 
   var startCoords = {
     x: evt.clientX,
@@ -211,6 +211,7 @@ mainPin.addEventListener('mousedown', function (evt) {
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
+    addMainPinCoordinates(mainPin, MAIN_PIN_X, MAIN_PIN_Y, addressField);
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
