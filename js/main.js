@@ -29,6 +29,9 @@ var PIN_SIZE_Y = 70;
 
 var MAIN_PIN_X = 65;
 var MAIN_PIN_Y = 82;
+
+var MIN_MAP_Y = 130;
+var MAX_MAP_Y = 630;
 // Блок с пинами в разметке
 var pinList = document.querySelector('.map__pins');
 
@@ -145,24 +148,84 @@ var addMainPinCoordinates = function (pin, pinWidth, pinHeight, input) {
 deactivateMapFilters();
 deactivateFiledsets();
 
-mainPin.addEventListener('mouseup', function () {
+// Обработчик перетаскивания
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  // активируем элементы интерфейса
   revealMap();
   activateMapFilters();
   createPinsOnMap();
   activateForm();
   activateFiledsets();
-  addMainPinCoordinates(mainPin, MAIN_PIN_X, MAIN_PIN_Y, addressField);
+
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var pinBorders = {
+    minX: 0,
+    maxX: map.clientWidth - MAIN_PIN_X,
+    minY: MIN_MAP_Y,
+    maxY: MAX_MAP_Y
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    // координаты главного пина в разметке
+    var mainPinYpos = mainPin.offsetTop - shift.y;
+    var mainPinXpos = mainPin.offsetLeft - shift.x;
+
+    // Ограничиваем область перемещения главного пина
+    if (mainPinYpos < pinBorders.minY) {
+      mainPinYpos = pinBorders.minY;
+    }
+
+    if (mainPinYpos > pinBorders.maxY) {
+      mainPinYpos = pinBorders.maxY;
+    }
+
+    if (mainPinXpos < pinBorders.minX) {
+      mainPinXpos = pinBorders.minX;
+    }
+
+    if (mainPinXpos > pinBorders.maxX) {
+      mainPinXpos = pinBorders.maxX;
+    }
+
+    // Задаем координаты главного пина в стилях
+    mainPin.style.top = mainPinYpos + 'px';
+    mainPin.style.left = mainPinXpos + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    addMainPinCoordinates(mainPin, MAIN_PIN_X, MAIN_PIN_Y, addressField);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 // находим поле с типом жилья
 var formAccomTypesSelect = document.querySelector('#type');
 
-
 var onChangePriceAttributes = function (minValue) {
   var formPriceInput = document.querySelector('#price');
   formPriceInput.setAttribute('placeholder', minValue);
   formPriceInput.setAttribute('min', minValue);
-
 };
 
 // обработчик изменения типа жилья
