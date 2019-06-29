@@ -1,15 +1,6 @@
 'use strict';
 
 (function () {
-  var apartments = [];
-  var APPARTMENTS_NUMBER = 8;
-  var APPARTMENT_TYPES = [
-    'palace',
-    'flat',
-    'house',
-    'bungalo'
-  ];
-
   var ACCOMMODATIONS = {
     palace: {
       minPrice: 10000
@@ -25,31 +16,34 @@
     }
   };
 
-  var getApartmentData = function (imageNum, appTypes, pinSizeX, pinSizeY) {
-    var apartment = {
-      author: {
-        avatar: 'img/avatars/user0' + imageNum + '.png'
-      },
+  var errorHandler = function (errorMessage) {
 
-      offer: {
-        type: appTypes[window.util.getRandomArrayNumber(appTypes)]
-      },
+    var elemMain = document.querySelector('main');
+    var messageTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+    var fragment = document.createDocumentFragment();
+    var elemError = messageTemplate.cloneNode(true);
 
-      location: {
-        // Вычитаем размеры пина, чтобы он не вылезал за пределы блока
-        x: window.util.getRandomInRange(0, 1200 - pinSizeX),
-        y: window.util.getRandomInRange(130, 630 - pinSizeY)
-      }
+    var elemErrorMessage = elemError.querySelector('.error__message');
+
+    elemErrorMessage.textContent = errorMessage;
+    fragment.appendChild(elemError);
+    elemMain.appendChild(fragment);
+
+    var elemErrorButton = document.querySelector('main .error__button');
+    var errorButtonHander = function () {
+      document.location.reload(true);
     };
-    return apartment;
+    elemErrorButton.addEventListener('click', errorButtonHander);
   };
 
-  for (var i = 1; i <= APPARTMENTS_NUMBER; i++) {
-    apartments.push(getApartmentData(i, APPARTMENT_TYPES, window.pin.size.x, window.pin.size.y));
-  }
-
-  window.data = {
-    apartments: apartments,
-    acomodations: ACCOMMODATIONS
+  var successHandler = function (data) {
+    window.data = {
+      apartments: data,
+      acomodations: ACCOMMODATIONS
+    };
   };
+
+  window.backend.load(successHandler, errorHandler);
 })();
