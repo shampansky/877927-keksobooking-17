@@ -39,9 +39,14 @@
   };
 
   var successHandler = function (data) {
+    // Уменьшаем входной псевдомассив до 5 элементов
+    var customData = data.slice(0, 5);
     window.data = {
-      apartments: data,
-      acomodations: ACCOMMODATIONS
+      apartments: customData,
+      acomodations: ACCOMMODATIONS,
+      update: function () {
+        console.log('updating data');
+      }
     };
   };
 

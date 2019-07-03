@@ -41,7 +41,7 @@
     window.map.createPins();
     window.form.activate();
     window.form.activateFieldsets();
-    window.form.activateMapFilters();
+    window.filter.activateMapFilters();
 
     var startCoords = {
       x: evt.clientX,

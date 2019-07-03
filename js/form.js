@@ -3,7 +3,6 @@
 
   var adFormFieldsets = document.querySelectorAll('.ad-form fieldset');
   var adForm = document.querySelector('.ad-form');
-  var mapFilters = document.querySelector('.map__filters').children;
   var addressField = adForm.querySelector('#address');
 
   var activateForm = function () {
@@ -19,18 +18,6 @@
   var deactivateFiledsets = function () {
     for (var b = 0; b < adFormFieldsets.length; b++) {
       adFormFieldsets[b].setAttribute('disabled', 'disabled');
-    }
-  };
-
-  var activateMapFilters = function () {
-    for (var c = 0; c < mapFilters.length; c++) {
-      mapFilters[c].removeAttribute('disabled');
-    }
-  };
-
-  var deactivateMapFilters = function () {
-    for (var d = 0; d < mapFilters.length; d++) {
-      mapFilters[d].setAttribute('disabled', 'disabled');
     }
   };
 
@@ -53,10 +40,8 @@
     address: addressField,
     activate: activateForm,
     activateFieldsets: activateFiledsets,
-    activateMapFilters: activateMapFilters,
   };
 
-  deactivateMapFilters();
   deactivateFiledsets();
 
 })();
