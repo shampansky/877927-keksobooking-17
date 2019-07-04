@@ -40,12 +40,18 @@
 
   var successHandler = function (data) {
     // Уменьшаем входной псевдомассив до 5 элементов
-    var customData = data.slice(0, 5);
     window.data = {
-      apartments: customData,
+      apartments: data,
       acomodations: ACCOMMODATIONS,
       update: function () {
-        console.log('updating data');
+        var pins = document.querySelectorAll('.app-pin');
+        pins.forEach(function (pin) {
+          pin.parentNode.removeChild(pin);
+        });
+        var filteredData = data.filter(function (app) {
+          return app.offer.type === window.filter.housingType;
+        });
+        window.map.createPins(filteredData);
       }
     };
   };

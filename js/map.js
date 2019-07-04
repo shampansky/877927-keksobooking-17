@@ -11,11 +11,11 @@
 
   // Добавляем пины в разметку через элемент documentFragment
 
-  var createPinsOnMap = function () {
+  var createPinsOnMap = function (data) {
     var fragment = document.createDocumentFragment();
-
-    for (var j = 0; j < window.data.apartments.length; j++) {
-      fragment.appendChild(window.pin.create(window.data.apartments[j]));
+    var pinsCount = data.length > 2 ? 2 : data.length;
+    for (var j = 0; j < pinsCount; j++) {
+      fragment.appendChild(window.pin.create(data[j]));
     }
 
     window.pin.list.appendChild(fragment);

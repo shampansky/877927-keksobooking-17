@@ -16,17 +16,17 @@
     }
   };
 
-  var housingTypeValue = elemHousingType.options[elemHousingType.selectedIndex].value;
+  // var housingTypeValue = elemHousingType.options[elemHousingType.selectedIndex].value;
 
   // Обработчик типа жилья
   elemHousingType.addEventListener('change', function () {
-    housingTypeValue = elemHousingType.options[elemHousingType.selectedIndex].value;
+    window.filter.housingType = elemHousingType.options[elemHousingType.selectedIndex].value;
     window.data.update();
   });
 
   window.filter = {
     activateMapFilters: activateMapFilters,
-    housingType: housingTypeValue
+    // housingType: housingTypeValue
   };
 
   deactivateMapFilters();
