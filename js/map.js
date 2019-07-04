@@ -13,7 +13,7 @@
 
   var createPinsOnMap = function (data) {
     var fragment = document.createDocumentFragment();
-    var pinsCount = data.length > 2 ? 2 : data.length;
+    var pinsCount = data.length > 5 ? 5 : data.length;
     for (var j = 0; j < pinsCount; j++) {
       fragment.appendChild(window.pin.create(data[j]));
     }
