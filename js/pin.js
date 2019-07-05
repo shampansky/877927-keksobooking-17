@@ -23,6 +23,7 @@
 
     pinElement.setAttribute('style', style);
     pinElement.querySelector('img').setAttribute('src', pin.author.avatar);
+    pinElement.classList.add('app-pin');
 
     return pinElement;
   };
@@ -37,11 +38,14 @@
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     // активируем элементы интерфейса
-    window.map.reveal();
-    window.map.createPins();
-    window.form.activate();
-    window.form.activateFieldsets();
-    window.form.activateMapFilters();
+
+    if (window.map.element.classList.contains('map--faded')) {
+      window.map.reveal();
+      window.map.createPins(window.data.apartments);
+      window.form.activate();
+      window.form.activateFieldsets();
+      window.filter.activateMapFilters();
+    }
 
     var startCoords = {
       x: evt.clientX,
