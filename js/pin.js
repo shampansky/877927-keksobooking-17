@@ -42,7 +42,7 @@
     if (window.map.element.classList.contains('map--faded')) {
       window.map.reveal();
       window.map.createPins(window.data.apartments);
-      window.map.createCards(window.data.apartments);
+      window.map.createCard(window.data.apartments[0]);
       window.form.activate();
       window.form.activateFieldsets();
       window.filter.activateMapFilters();
