@@ -63,8 +63,24 @@
       elemPhoto.classList.add('popup__photo');
       photos.appendChild(elemPhoto);
     });
+
+    var elemCloseCard = cardElement.querySelector('.popup__close');
+
+    var closeCard = function () {
+      window.map.element.removeChild(cardElement);
+    };
+
+    elemCloseCard.addEventListener('click', function () {
+      closeCard();
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      window.util.isEscEvent(evt, closeCard);
+    });
+
     return cardElement;
   };
+
 
   window.card = {
     create: createCard
