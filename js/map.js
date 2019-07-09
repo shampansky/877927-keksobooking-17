@@ -22,10 +22,22 @@
     window.pin.list.appendChild(fragment);
   };
 
+  var createCardsOnMap = function (data) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < data.length; i++) {
+
+      fragment.appendChild(window.card.create((data[i])));
+    }
+
+    map.insertBefore(fragment, window.pin.list);
+  };
+
   window.map = {
     element: map,
     reveal: revealMap,
     createPins: createPinsOnMap,
+    createCards: createCardsOnMap,
     minY: MIN_MAP_Y,
     maxY: MAX_MAP_Y
   };
