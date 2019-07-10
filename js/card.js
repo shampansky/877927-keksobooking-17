@@ -1,54 +1,96 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = '45';
+  var PHOTO_HEIGHT = '40';
+
   var cardTemplate = document.querySelector('#card')
   .content
   .querySelector('article');
 
-  var createCard = function (card) {
+  var createCard = function (cardData) {
     var cardElement = cardTemplate.cloneNode(true);
-    cardElement.querySelector('img').setAttribute('src', card.author.avatar);
-    cardElement.querySelector('.popup__title').textContent = card.offer.title;
-    cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-    cardElement.querySelector('.popup__text--price').innerHTML = card.offer.price + '&#x20bd;<span>/ночь</span>';
-    cardElement.querySelector('.popup__type').textContent = window.data.acomodations[card.offer.type].name;
-    cardElement.querySelector('.popup__text--capacity').textContent =
-    card.offer.rooms +
-    ' ' +
-    window.util.numToString(card.offer.rooms, ['комната', 'комнаты', 'комнат']) +
-    ' для '
-    + card.offer.guests +
-    ' ' +
-    window.util.numToString(card.offer.guests, ['гостя', 'гостей', 'гостей']);
-    cardElement.querySelector('.popup__text--time').textContent =
-    'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+    var cardAvatar = cardElement.querySelector('img');
+    var cardTitle = cardElement.querySelector('.popup__title');
+    var cardAddress = cardElement.querySelector('.popup__text--address');
+    var cardPrice = cardElement.querySelector('.popup__text--price');
+    var cardType = cardElement.querySelector('.popup__type');
+    var cardCapacity = cardElement.querySelector('.popup__text--capacity');
+    var cardTime = cardElement.querySelector('.popup__text--time');
     var featuresList = cardElement.querySelector('.popup__features');
+    var cardDescription = cardElement.querySelector('.popup__description');
+    var photos = cardElement.querySelector('.popup__photos');
+
+    cardAvatar.setAttribute('src', cardData.author.avatar);
+    cardTitle.textContent = cardData.offer.title;
+    cardAddress.textContent = cardData.offer.address;
+    cardPrice.innerHTML = cardData.offer.price + '&#x20bd;<span>/ночь</span>';
+    cardType.textContent = window.data.acomodations[cardData.offer.type].name;
+    cardCapacity.textContent =
+    cardData.offer.rooms +
+    ' ' +
+    window.util.numToString(cardData.offer.rooms, ['комната', 'комнаты', 'комнат']) +
+    ' для '
+    + cardData.offer.guests +
+    ' ' +
+    window.util.numToString(cardData.offer.guests, ['гостя', 'гостей', 'гостей']);
+    cardTime.textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
+
+    // Удаляем опции из шаблона
     while (featuresList.firstChild) {
       featuresList.removeChild(featuresList.firstChild);
     }
-    card.offer.features.forEach(function (feature) {
+    // Добавляем опции из данных с сервера
+    cardData.offer.features.forEach(function (feature) {
       var elemFeatureItem = document.createElement('li');
       elemFeatureItem.classList.add('popup__feature', 'popup__feature--' + feature);
       featuresList.appendChild(elemFeatureItem);
     });
-    cardElement.querySelector('.popup__description').textContent = card.offer.description;
-    var photos = cardElement.querySelector('.popup__photos');
+
+    cardDescription.textContent = cardData.offer.description;
+
+    // Удаляем фото из шаблона
     while (photos.firstChild) {
       photos.removeChild(photos.firstChild);
     }
-    card.offer.photos.forEach(function (photo) {
+    // Добавляем фото из данных с сервера
+    cardData.offer.photos.forEach(function (photo) {
       var elemPhoto = document.createElement('img');
       elemPhoto.setAttribute('src', photo);
-      elemPhoto.setAttribute('width', '45');
-      elemPhoto.setAttribute('height', '40');
+      elemPhoto.setAttribute('width', PHOTO_WIDTH);
+      elemPhoto.setAttribute('height', PHOTO_HEIGHT);
       elemPhoto.setAttribute('alt', 'Фотография жилья');
       elemPhoto.classList.add('popup__photo');
       photos.appendChild(elemPhoto);
     });
+
+    var elemCloseCard = cardElement.querySelector('.popup__close');
+
+    var closeCard = function () {
+      window.map.element.removeChild(cardElement);
+    };
+
+    elemCloseCard.addEventListener('click', function () {
+      closeCard();
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      window.util.isEscEvent(evt, removeCard);
+    });
+
     return cardElement;
   };
+
+  var removeCard = function () {
+    var card = document.querySelector('.map__card');
+    if (card) {
+      window.map.element.removeChild(card);
+    }
+  };
+
   window.card = {
-    create: createCard
+    create: createCard,
+    delete: removeCard
   };
 
 })();

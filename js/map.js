@@ -20,16 +20,23 @@
     }
 
     window.pin.list.appendChild(fragment);
+
+    window.pin.list.addEventListener('click', function (evt) {
+      var target = evt.target;
+      window.card.delete();
+      while (target !== window.pin.list) {
+        if (target.classList.contains('app-pin')) {
+          createCardOnMap(target.pin);
+        }
+        target = target.parentNode;
+      }
+
+    });
   };
 
-  var createCardsOnMap = function (data) {
+  var createCardOnMap = function (data) {
     var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < data.length; i++) {
-
-      fragment.appendChild(window.card.create((data[i])));
-    }
-
+    fragment.appendChild(window.card.create(data));
     map.insertBefore(fragment, window.pin.list);
   };
 
@@ -37,7 +44,7 @@
     element: map,
     reveal: revealMap,
     createPins: createPinsOnMap,
-    createCards: createCardsOnMap,
+    createCard: createCardOnMap,
     minY: MIN_MAP_Y,
     maxY: MAX_MAP_Y
   };
