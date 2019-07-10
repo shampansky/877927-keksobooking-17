@@ -20,6 +20,18 @@
     }
 
     window.pin.list.appendChild(fragment);
+
+    window.pin.list.addEventListener('click', function (evt) {
+      var target = evt.target;
+      window.card.delete();
+      while (target !== window.pin.list) {
+        if (target.classList.contains('app-pin')) {
+          createCardOnMap(target.pin);
+        }
+        target = target.parentNode;
+      }
+
+    });
   };
 
   var createCardOnMap = function (data) {

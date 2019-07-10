@@ -75,15 +75,22 @@
     });
 
     document.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, closeCard);
+      window.util.isEscEvent(evt, removeCard);
     });
 
     return cardElement;
   };
 
+  var removeCard = function () {
+    var card = document.querySelector('.map__card');
+    if (card) {
+      window.map.element.removeChild(card);
+    }
+  };
 
   window.card = {
-    create: createCard
+    create: createCard,
+    delete: removeCard
   };
 
 })();

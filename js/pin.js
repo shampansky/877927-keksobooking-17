@@ -24,7 +24,7 @@
     pinElement.setAttribute('style', style);
     pinElement.querySelector('img').setAttribute('src', pin.author.avatar);
     pinElement.classList.add('app-pin');
-
+    pinElement.pin = pin;
     return pinElement;
   };
 
@@ -42,7 +42,6 @@
     if (window.map.element.classList.contains('map--faded')) {
       window.map.reveal();
       window.map.createPins(window.data.apartments);
-      window.map.createCard(window.data.apartments[0]);
       window.form.activate();
       window.form.activateFieldsets();
       window.filter.activateMapFilters();
