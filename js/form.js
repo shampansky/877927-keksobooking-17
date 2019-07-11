@@ -21,6 +21,10 @@
     }
   };
 
+  // поле адрес только для чтения
+  var formAddressInput = document.querySelector('#address');
+  formAddressInput.readOnly = true;
+
   // находим поле с типом жилья
   var formAccomTypesSelect = document.querySelector('#type');
 
@@ -41,6 +45,37 @@
     activate: activateForm,
     activateFieldsets: activateFiledsets,
   };
+
+  // Соответсвие количества комнат количеству гостей
+  var formRoomsSelect = document.querySelector('#room_number');
+  var formCapacitySelect = document.querySelector('#capacity');
+  var formCapacityOptions = document.querySelector('#capacity').children;
+
+  var roomsForGuests = {
+    1: ['1'],
+    2: ['1', '2'],
+    3: ['1', '2', '3'],
+    100: ['0']
+  };
+
+  formRoomsSelect.addEventListener('change', function (evt) {
+    var roomsValue = evt.target.options[evt.target.selectedIndex].value;
+
+    [].forEach.call(formCapacityOptions, function (option) {
+      if (roomsForGuests[roomsValue].includes(option.value)) {
+        option.disabled = false;
+      } else {
+        option.disabled = true;
+      }
+    });
+
+    var selCapacityOption = formCapacitySelect.options[formCapacitySelect.selectedIndex];
+
+    // Снимаем выделение на опции, которую нельзя выбрать
+    if (selCapacityOption.disabled) {
+      selCapacityOption.selected = false;
+    }
+  });
 
   deactivateFiledsets();
 
