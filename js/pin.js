@@ -6,6 +6,10 @@
 
   var MAIN_PIN_X = 65;
   var MAIN_PIN_Y = 82;
+
+  var MAIN_PIN_DEFAULT_X = 570;
+  var MAIN_PIN_DEFAULT_Y = 375;
+
   // Блок с пинами в разметке
   var pinList = document.querySelector('.map__pins');
   // Главный пин
@@ -32,6 +36,11 @@
     var xCoord = parseInt(pin.style.left, 10) + Math.floor(pinWidth / 2);
     var yCoord = parseInt(pin.style.top, 10) + pinHeight;
     input.value = xCoord + ', ' + yCoord;
+  };
+
+  var resetMainPinCoords = function () {
+    window.pin.main.style.top = MAIN_PIN_DEFAULT_Y + 'px';
+    window.pin.main.style.left = MAIN_PIN_DEFAULT_X + 'px';
   };
 
   // Обработчик перетаскивания
@@ -119,7 +128,8 @@
       x: MAIN_PIN_X,
       y: MAIN_PIN_Y
     },
-    addCoordsMain: addMainPinCoordinates
+    addCoordsMain: addMainPinCoordinates,
+    resetCoordsMain: resetMainPinCoords
   };
 
 })();

@@ -9,6 +9,10 @@
     adForm.classList.remove('ad-form--disabled');
   };
 
+  var deactivateForm = function () {
+    adForm.classList.add('ad-form--disabled');
+  };
+
   var activateFiledsets = function () {
     for (var a = 0; a < adFormFieldsets.length; a++) {
       adFormFieldsets[a].removeAttribute('disabled');
@@ -39,12 +43,6 @@
     var currentSelectionValue = evt.target.options[evt.target.selectedIndex].value;
     onChangePriceAttributes(window.data.acomodations[currentSelectionValue].minPrice);
   });
-
-  window.form = {
-    address: addressField,
-    activate: activateForm,
-    activateFieldsets: activateFiledsets,
-  };
 
   // Соответсвие количества комнат количеству гостей
   var formRoomsSelect = document.querySelector('#room_number');
@@ -78,5 +76,39 @@
   });
 
   deactivateFiledsets();
+
+  var resetForm = function () {
+    adForm.reset();
+    window.map.hide();
+    window.pin.resetCoordsMain();
+    window.form.deactivateFiledsets();
+    window.form.deactivate();
+    window.filter.deactivateMapFilters();
+    window.map.removePins();
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    var successHandler = function () {
+      // closePopup();
+      resetForm();
+    };
+    window.backend.save(new FormData(adForm), successHandler, window.util.errorHandler);
+
+  });
+
+  // adFormReset.addEventListener('click', function (evt) {
+  //
+  // });
+
+  window.form = {
+    adForm: adForm,
+    address: addressField,
+    activate: activateForm,
+    deactivate: deactivateForm,
+    activateFieldsets: activateFiledsets,
+    deactivateFiledsets: deactivateFiledsets,
+    resetForm: resetForm
+  };
 
 })();
