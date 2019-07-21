@@ -90,10 +90,15 @@
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var successHandler = function () {
-      // closePopup();
+      window.success.show();
       resetForm();
     };
-    window.backend.save(new FormData(adForm), successHandler, window.util.errorHandler);
+
+    var errorHandler = function () {
+      window.error.show();
+    };
+
+    window.backend.save(new FormData(adForm), successHandler, errorHandler);
 
   });
 
