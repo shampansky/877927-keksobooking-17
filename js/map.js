@@ -10,6 +10,10 @@
     map.classList.remove('map--faded');
   };
 
+  var fadeMap = function () {
+    map.classList.add('map--faded');
+  };
+
   // Добавляем пины в разметку через элемент documentFragment
 
   var createPinsOnMap = function (data) {
@@ -34,6 +38,13 @@
     });
   };
 
+  var removePinsOnMap = function () {
+    var pins = document.querySelectorAll('.app-pin');
+    Array.prototype.forEach.call(pins, function (node) {
+      node.parentNode.removeChild(node);
+    });
+  };
+
   var createCardOnMap = function (data) {
     var fragment = document.createDocumentFragment();
     fragment.appendChild(window.card.create(data));
@@ -43,7 +54,9 @@
   window.map = {
     element: map,
     reveal: revealMap,
+    hide: fadeMap,
     createPins: createPinsOnMap,
+    removePins: removePinsOnMap,
     createCard: createCardOnMap,
     minY: MIN_MAP_Y,
     maxY: MAX_MAP_Y

@@ -27,6 +27,7 @@
 
   window.filter = {
     activateMapFilters: activateMapFilters,
+    deactivateMapFilters: deactivateMapFilters,
     // housingType: housingTypeValue
   };
 
