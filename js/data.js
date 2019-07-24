@@ -46,17 +46,7 @@
     // Уменьшаем входной псевдомассив до 5 элементов
     window.data = {
       apartments: data,
-      acomodations: ACCOMMODATIONS,
-      update: function () {
-        var pins = document.querySelectorAll('.app-pin');
-        pins.forEach(function (pin) {
-          pin.parentNode.removeChild(pin);
-        });
-        var filteredData = data.filter(function (app) {
-          return app.offer.type === window.filter.housingType;
-        });
-        window.map.createPins(filteredData);
-      }
+      acomodations: ACCOMMODATIONS
     };
   };
 

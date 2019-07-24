@@ -43,6 +43,16 @@ window.util = (function () {
       node.style.fontSize = '30px';
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
+    },
+    getPriceRank: function (price) {
+      if (price < 10000) {
+        return 'low';
+      } else if (price >= 10000 && price <= 50000) {
+        return 'middle';
+      } else if (price > 50000) {
+        return 'high';
+      }
+      return false;
     }
   };
 })();
