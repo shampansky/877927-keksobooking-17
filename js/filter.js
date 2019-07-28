@@ -60,35 +60,27 @@
   };
 
   var activateMapFilters = function () {
-    mapFilters.map(function (filter) {
-      filter.removeAttribute('disabled');
-    });
+    window.util.setFormField(mapFilters, false);
   };
 
   var deactivateMapFilters = function () {
-    mapFilters.map(function (filter) {
-      filter.setAttribute('disabled', 'disabled');
-    });
+    window.util.setFormField(mapFilters, true);
   };
 
-  // var housingTypeValue = elemHousingType.options[elemHousingType.selectedIndex].value;
-
-  // Обработчик типа жилья
-  // elemHousingType.addEventListener('change', function () {
-  //   console.log('select changed');
-  // });
-
+  var onFilterChange = window.debounce(function () {
+    updatePins();
+  });
 
   filters.addEventListener('change', function (evt) {
     evt.preventDefault();
     window.map.removePins();
-    updatePins();
+    window.card.delete();
+    onFilterChange();
   });
 
   window.filter = {
     activateMapFilters: activateMapFilters,
     deactivateMapFilters: deactivateMapFilters,
-    // housingType: housingTypeValue
   };
 
   deactivateMapFilters();

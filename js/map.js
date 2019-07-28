@@ -27,9 +27,9 @@
 
     window.pin.list.addEventListener('click', function (evt) {
       var target = evt.target;
-      window.card.delete();
       while (target !== window.pin.list) {
         if (target.classList.contains('app-pin')) {
+          window.card.delete();
           createCardOnMap(target.pin);
         }
         target = target.parentNode;

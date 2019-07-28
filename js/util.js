@@ -53,6 +53,15 @@ window.util = (function () {
         return 'high';
       }
       return false;
+    },
+    setFormField: function (fieldSetArr, isDisabled) {
+      fieldSetArr.forEach(function (fieldSet) {
+        if (isDisabled) {
+          fieldSet.setAttribute('disabled', 'disabled');
+        } else {
+          fieldSet.removeAttribute('disabled');
+        }
+      });
     }
   };
 })();

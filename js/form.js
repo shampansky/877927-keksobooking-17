@@ -1,9 +1,10 @@
 'use strict';
 (function () {
 
-  var adFormFieldsets = document.querySelectorAll('.ad-form fieldset');
+  var adFormFieldsets = Array.prototype.slice.call(document.querySelectorAll('.ad-form fieldset'));
   var adForm = document.querySelector('.ad-form');
   var addressField = adForm.querySelector('#address');
+  var adFormReset = document.querySelector('.ad-form__reset');
 
   var activateForm = function () {
     adForm.classList.remove('ad-form--disabled');
@@ -14,15 +15,11 @@
   };
 
   var activateFiledsets = function () {
-    for (var a = 0; a < adFormFieldsets.length; a++) {
-      adFormFieldsets[a].removeAttribute('disabled');
-    }
+    window.util.setFormField(adFormFieldsets, false);
   };
 
   var deactivateFiledsets = function () {
-    for (var b = 0; b < adFormFieldsets.length; b++) {
-      adFormFieldsets[b].setAttribute('disabled', 'disabled');
-    }
+    window.util.setFormField(adFormFieldsets, true);
   };
 
   // поле адрес только для чтения
@@ -49,18 +46,19 @@
   var formCapacitySelect = document.querySelector('#capacity');
   var formCapacityOptions = document.querySelector('#capacity').children;
 
-  var roomsForGuests = {
+  var RoomsForGuests = {
     1: ['1'],
     2: ['1', '2'],
     3: ['1', '2', '3'],
     100: ['0']
   };
 
-  formRoomsSelect.addEventListener('change', function (evt) {
-    var roomsValue = evt.target.options[evt.target.selectedIndex].value;
+  var getAllowedGuests = function (roomsCount) {
+    var roomsValue = roomsCount;
 
     [].forEach.call(formCapacityOptions, function (option) {
-      if (roomsForGuests[roomsValue].includes(option.value)) {
+      var isInRoomsArray = RoomsForGuests[roomsValue].includes(option.value);
+      if (isInRoomsArray) {
         option.disabled = false;
       } else {
         option.disabled = true;
@@ -73,7 +71,25 @@
     if (selCapacityOption.disabled) {
       selCapacityOption.selected = false;
     }
+  };
+
+  getAllowedGuests(formRoomsSelect.options[formRoomsSelect.selectedIndex].value);
+
+  formRoomsSelect.addEventListener('change', function (evt) {
+    getAllowedGuests(evt.target.options[evt.target.selectedIndex].value);
   });
+
+  // Синхронизируем Поля «Время заезда» и «Время выезда»
+  var timeFieldset = document.querySelector('.ad-form__element--time');
+
+  timeFieldset.addEventListener('change', function (evt) {
+    var currentSelectionValue = evt.target.options[evt.target.selectedIndex].value;
+    var timeSelectFields = timeFieldset.querySelectorAll('select');
+    timeSelectFields.forEach(function (field) {
+      field.value = currentSelectionValue;
+    });
+  });
+
 
   deactivateFiledsets();
 
@@ -102,9 +118,10 @@
 
   });
 
-  // adFormReset.addEventListener('click', function (evt) {
-  //
-  // });
+  adFormReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    resetForm();
+  });
 
   window.form = {
     adForm: adForm,

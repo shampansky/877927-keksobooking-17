@@ -46,15 +46,6 @@
   // Обработчик перетаскивания
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    // активируем элементы интерфейса
-
-    if (window.map.element.classList.contains('map--faded')) {
-      window.map.reveal();
-      window.map.createPins(window.data.apartments);
-      window.form.activate();
-      window.form.activateFieldsets();
-      window.filter.activateMapFilters();
-    }
 
     var startCoords = {
       x: evt.clientX,
@@ -75,6 +66,7 @@
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
       };
+
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
@@ -109,6 +101,14 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       addMainPinCoordinates(mainPin, MAIN_PIN_X, MAIN_PIN_Y, window.form.address);
+      // активируем элементы интерфейса
+      if (window.map.element.classList.contains('map--faded')) {
+        window.map.reveal();
+        window.map.createPins(window.data.apartments);
+        window.form.activate();
+        window.form.activateFieldsets();
+        window.filter.activateMapFilters();
+      }
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
