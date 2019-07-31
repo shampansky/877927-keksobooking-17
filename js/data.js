@@ -43,7 +43,6 @@
   };
 
   var successHandler = function (data) {
-    // Уменьшаем входной псевдомассив до 5 элементов
     window.data = {
       apartments: data,
       acomodations: ACCOMMODATIONS

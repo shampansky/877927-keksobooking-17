@@ -14,11 +14,11 @@
     adForm.classList.add('ad-form--disabled');
   };
 
-  var activateFiledsets = function () {
+  var activateFieldsets = function () {
     window.util.setFormField(adFormFieldsets, false);
   };
 
-  var deactivateFiledsets = function () {
+  var deactivateFieldsets = function () {
     window.util.setFormField(adFormFieldsets, true);
   };
 
@@ -91,16 +91,17 @@
   });
 
 
-  deactivateFiledsets();
+  deactivateFieldsets();
 
   var resetForm = function () {
     adForm.reset();
     window.map.hide();
     window.pin.resetCoordsMain();
-    window.form.deactivateFiledsets();
+    window.form.deactivateFieldsets();
     window.form.deactivate();
     window.filter.deactivateMapFilters();
     window.map.removePins();
+    window.card.delete();
   };
 
   adForm.addEventListener('submit', function (evt) {
@@ -128,8 +129,8 @@
     address: addressField,
     activate: activateForm,
     deactivate: deactivateForm,
-    activateFieldsets: activateFiledsets,
-    deactivateFiledsets: deactivateFiledsets,
+    activateFieldsets: activateFieldsets,
+    deactivateFieldsets: deactivateFieldsets,
     resetForm: resetForm
   };
 
